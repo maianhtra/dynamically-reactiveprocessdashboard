@@ -1,24 +1,25 @@
-function canFinish(numCourses, prerequisites) {
-  const graph = new Map();
-  const visited = new Array(numCourses).fill(0);
-  for (const [course, prerequisite] of prerequisites) {
-    if (!graph.has(course)) graph.set(course, []);
-    graph.get(course).push(prerequisite);
-  }
-  for (let i = 0; i < numCourses; i++) {
-    if (!dfs(i)) return false;
-  }
-  return true;
-  function dfs(course) {
-    if (visited[course] === 1) return false;
-    if (visited[course] === -1) return true;
-    visited[course] = 1;
-    if (graph.has(course)) {
-      for (const prerequisite of graph.get(course)) {
-        if (!dfs(prerequisite)) return false;
+const cocktailShakerSort = (arr) => {
+  let swapped = true;
+  let start = 0;
+  let end = arr.length - 1;
+  while (swapped) {
+    swapped = false;
+    for (let i = start; i < end; i++) {
+      if (arr[i] > arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        swapped = true;
       }
     }
-    visited[course] = -1;
-    return true;
+    if (!swapped) break;
+    swapped = false;
+    end--;
+    for (let i = end - 1; i >= start; i--) {
+      if (arr[i] > arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        swapped = true;
+      }
+    }
+    start++;
   }
-}
+  return arr;
+};
